@@ -8,10 +8,7 @@ import br.dev.lucasena.anota_ai_challenge.domain.useCases.category.CreateCategor
 import br.dev.lucasena.anota_ai_challenge.domain.useCases.category.DeleteCategoryUseCase;
 import br.dev.lucasena.anota_ai_challenge.domain.useCases.category.FindAllCategoriesUseCase;
 import br.dev.lucasena.anota_ai_challenge.domain.useCases.category.UpdateCategoryUseCase;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.CreateProductUseCase;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.DeleteProductUseCase;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.FindAllProductsUseCase;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.UpdateProductUseCase;
+import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.*;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +27,19 @@ public class ProductController {
     private UpdateProductUseCase updateProductUseCase;
     @Autowired
     private DeleteProductUseCase deleteProductUseCase;
+    @Autowired
+    private FindCatalogByOwnerId findCatalogByOwnerId;
 
     @GetMapping
     public ResponseEntity<List<Product>> findAll() {
         List<Product> products = this.findAllProductsUseCase.execute();
         return ResponseEntity.ok().body(products);
+    }
+
+    @GetMapping("/catalog/{ownerId}")
+    public ResponseEntity<String> findOwnerCatalog(@PathVariable("ownerId") String ownerId) {
+        String catalogUrl = this.findCatalogByOwnerId.execute(ownerId);
+        return ResponseEntity.ok().body(catalogUrl);
     }
 
     @PostMapping

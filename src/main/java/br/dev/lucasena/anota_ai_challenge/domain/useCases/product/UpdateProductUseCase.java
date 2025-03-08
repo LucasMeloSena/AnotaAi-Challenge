@@ -4,7 +4,7 @@ import br.dev.lucasena.anota_ai_challenge.domain.dtos.AwsMessageDTO;
 import br.dev.lucasena.anota_ai_challenge.domain.dtos.ProductDTO;
 import br.dev.lucasena.anota_ai_challenge.domain.exceptions.category.ProductNotFoundException;
 import br.dev.lucasena.anota_ai_challenge.domain.models.Product;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.aws.AwsSnsUseCase;
+import br.dev.lucasena.anota_ai_challenge.domain.useCases.aws.AwsMessagingUseCase;
 import br.dev.lucasena.anota_ai_challenge.domain.useCases.category.FindCategoryById;
 import br.dev.lucasena.anota_ai_challenge.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class UpdateProductUseCase {
     @Autowired
     private FindCategoryById findCategoryById;
     @Autowired
-    private AwsSnsUseCase snsUseCase;
+    private AwsMessagingUseCase snsUseCase;
 
     public Product execute(String id, ProductDTO data) {
         Product product = this.productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
