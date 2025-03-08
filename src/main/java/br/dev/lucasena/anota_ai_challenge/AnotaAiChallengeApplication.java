@@ -7,9 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication
 @EnableMongoRepositories
 public class AnotaAiChallengeApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(AnotaAiChallengeApplication.class, args);
 	}
-
 }
