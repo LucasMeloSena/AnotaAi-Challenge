@@ -1,7 +1,11 @@
 package br.dev.lucasena.anota_ai_challenge.config.aws;
 
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.Topic;
@@ -24,12 +28,19 @@ public class AwsServicesConfig {
     @Value("${aws.sns.topic.catalog.arn}")
     private String catalogArn;
 
+    private AWSCredentials credentials() {
+        return new BasicAWSCredentials(
+                accessKeyId,
+                secretKey
+        );
+    }
+
+
     @Bean
     public AmazonSNS amazonSNSBuilder() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKeyId, secretKey);
         return AmazonSNSClientBuilder
                 .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withCredentials(new AWSStaticCredentialsProvider(credentials()))
                 .withRegion(region)
                 .build();
     }
@@ -46,6 +57,15 @@ public class AwsServicesConfig {
                         AwsBasicCredentials.create(accessKeyId, secretKey)
                 ))
                 .region(Region.US_EAST_2)
+                .build();
+    }
+
+    @Bean
+    public AmazonS3 amazonS3() {
+        return AmazonS3ClientBuilder
+                .standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials()))
+                .withRegion(Regions.US_EAST_2)
                 .build();
     }
 }

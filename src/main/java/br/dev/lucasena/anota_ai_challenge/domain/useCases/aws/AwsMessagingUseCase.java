@@ -3,7 +3,7 @@ package br.dev.lucasena.anota_ai_challenge.domain.useCases.aws;
 import br.dev.lucasena.anota_ai_challenge.domain.dtos.AwsMessageDTO;
 import br.dev.lucasena.anota_ai_challenge.domain.models.AwsNotification;
 import br.dev.lucasena.anota_ai_challenge.domain.models.Product;
-import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.GenerateCatalogJsonUseCase;
+import br.dev.lucasena.anota_ai_challenge.domain.useCases.product.GenerateJsonCatalogUseCase;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.model.Topic;
 import com.google.gson.Gson;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AwsSnsUseCase {
+public class AwsMessagingUseCase {
     @Autowired
     private AmazonSNS snsClient;
 
@@ -22,11 +22,11 @@ public class AwsSnsUseCase {
     private Topic catalogTopic;
 
     @Autowired
-    private GenerateCatalogJsonUseCase generateCatalog;
+    private GenerateJsonCatalogUseCase generateCatalog;
 
     private final Gson gson;
 
-    public AwsSnsUseCase() {
+    public AwsMessagingUseCase() {
         this.gson = new Gson();
     }
 
